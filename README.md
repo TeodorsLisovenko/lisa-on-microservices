@@ -164,7 +164,7 @@ Fig. 1. Syntax checking with SIARest plugin in Visual Studio Code [2].
 
 From their paper also is possible to derive code smells and issues. In the case of Copei’s paper their reference the GitHub repository where form code one can deduce that their tool is checking [2]:
 
-```typescript
+```js
 export const simpleTypeError = (resConf: string, resVal: Expression): SemanticError | undefined => {
   if (resConf === 'string' && resVal.kind !== SyntaxKind.StringLiteral) {
     return createSemanticError('Return value needs to be a string.', resVal.getStart(), resVal.end);
