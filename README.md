@@ -12,15 +12,15 @@
 
 3. `On the localization of the code of interest`. Frameworks provide a large set of solutions and syntaxis dedicated to the different concerns of services development, build-up, maintenance, and testing. Define a list of syntax examples that are associated with the point of communication. These would be the code portions that LiSA to later statically analyze.  
 
-4. `On dissection of framework syntax`. Learn how to use PyLISA SARL could decode framework syntax (annotations, declarations, etc.), and how to make them usable and understandable for further LiSA analysis pipeline.
+4. `On dissection of syntax`. Learn how to use SARL could decode framework syntax (annotations, declarations, etc.), and how to make them usable and understandable for further LiSA analysis pipeline.
 
-5. `On	results`. Specify what the results of a statically analyzed system of microservices should look like. In the context of issues and warnings investigate how LiSA checkers could output them textually. In the context of visualization investigate how LiSA’s current graph capabilities could accommodate visual representation of microservice provider-consumption edges. 
+5. `On results`. Specify what the results of a statically analyzed system of microservices should look like. In the context of issues and warnings investigate how LiSA checkers could output them textually. In the context of visualization investigate how LiSA’s current graph capabilities could accommodate visual representation of microservice provider-consumption edges. 
 
 ## 1. On what the analyzer is targeting
 
 The specific of static code analysis in the field of microservices is a focus on inter-service issues and code smells, in other words on workflow problematics between two more microservices and their mutual communication or contact points. 
 
-#### Sources:
+### Sources:
 
 #### 1.	*Registries like OWASP, Common Weakness Enumeration (CWE), and NIST National Vulnerability DB.*
 
@@ -28,67 +28,67 @@ The specific of static code analysis in the field of microservices is a focus on
 
 **Improper Validation of Specified Type of Input (CWE-1287)**
 
-Description: The product receives input that is expected to be of a certain type, but it does not validate or incorrectly validates that the input is actually of the expected type.
+`Description`: The product receives input that is expected to be of a certain type, but it does not validate or incorrectly validates that the input is actually of the expected type.
 
-Extension: From such issues that by nature are solitary, it is **possible to derive and formulate** that in the system of microservices when the object is transferred from one to another their common fields must be in the same type of declaration.
+`Extension`: From such issues that by nature are solitary, it is **possible to derive and formulate** that in the system of microservices when the object is transferred from one to another their common fields must be in the same type of declaration.
 
 Some more:
 
 **Implicit Conversion (CWE- 690)**
 
-Description: The system performs implicit conversion of data types, leading to potential unexpected behavior or vulnerabilities.
+`Description`: The system performs implicit conversion of data types, leading to potential unexpected behavior or vulnerabilities.
 
-Extension: Microservices should avoid relying on implicit conversions between data types, as they can lead to unexpected behavior or vulnerabilities during data exchange.
+`Extension`: Microservices should avoid relying on implicit conversions between data types, as they can lead to unexpected behavior or vulnerabilities during data exchange.
 
 **Incorrect Conversion between Numeric Types (CWE-681)**
 
-Description: When converting from one data type to another, such as long to integer, data can be omitted or translated in a way that produces unexpected values. If the resulting values are used in a sensitive context, then dangerous behaviors may occur.
+`Description`: When converting from one data type to another, such as long to integer, data can be omitted or translated in a way that produces unexpected values. If the resulting values are used in a sensitive context, then dangerous behaviors may occur.
 
-Extension: Discourage valid, but implicit numeric conversions like long to integer or double to float between microservices.
+`Extension`: Discourage valid, but implicit numeric conversions like long to integer or double to float between microservices.
 
 **Assignment to Variable without Use (CWE-563)**
 
-Description: The variable's value is assigned but never used, making it a dead store.
+`Description`: The variable's value is assigned but never used, making it a dead store.
 
-Extension: Microservice provides an object in the response body where certain fields are not used in any other microservice that calls or consumes it.
+`Extension`: Microservice provides an object in the response body where certain fields are not used in any other microservice that calls or consumes it.
 
 **Unchecked Return Value (CWE-252)**
 
-Description: The variable's value is assigned but never used, making it a dead store.
+`Description`: The variable's value is assigned but never used, making it a dead store.
 
-Extension: Remove endpoints  that are not used by any other microservice in the system.
+`Extension`: Remove endpoints  that are not used by any other microservice in the system.
 
 **Uncontrolled Resource Consumption (CWE-400)**
 
-Description: The system does not properly limit resource consumption, leading to denial of service or performance degradation.
+`Description`: The system does not properly limit resource consumption, leading to denial of service or performance degradation.
 
-Extension: Microservices should implement controls to limit resource consumption, preventing individual services from consuming excessive resources and affecting the overall system performance.
+`Extension`: Microservices should implement controls to limit resource consumption, preventing individual services from consuming excessive resources and affecting the overall system performance.
 
 **Exposure of Sensitive Information to an Unauthorized Actor (CWE-200)**
 
-Description: The system exposes sensitive information to unauthorized actors, leading to data breaches or privacy violations.
+`Description`: The system exposes sensitive information to unauthorized actors, leading to data breaches or privacy violations.
 
-Extension: Microservices should delegate which resource is accessable to which microservice in the system.
+`Extension`: Microservices should delegate which resource is accessable to which microservice in the system.
 
 **Unrestricted File Upload (CWE-434)**
 
-Description: The system allows users to upload files without proper validation or enforcement of file types, leading to potential file upload vulnerabilities and execution of malicious code.
+`Description`: The system allows users to upload files without proper validation or enforcement of file types, leading to potential file upload vulnerabilities and execution of malicious code.
 
-Extension: Microservices should implement strict file upload validation and enforce restrictions on allowed file types and sizes that are coming from neighboring microservices.
+`Extension`: Microservices should implement strict file upload validation and enforce restrictions on allowed file types and sizes that are coming from neighboring microservices.
 
 **Insufficient Logging and Monitoring (CWE-798)**
 
-Description: The system lacks sufficient logging and monitoring capabilities, hindering detection and response to security incidents or suspicious activities.
+`Descriptionv: The system lacks sufficient logging and monitoring capabilities, hindering detection and response to security incidents or suspicious activities.
 
-Extension: Microservice is handaling a resource without any logging that cames from neighboring microservice where such logging is present. This loses resource trace path and procedure history. 
+`Extension`: Microservice is handaling a resource without any logging that cames from neighboring microservice where such logging is present. This loses resource trace path and procedure history. 
 
 **Unprotected Transport of Credentials (CWE-523)**
 
-Description: Login pages do not use adequate measures to protect the user name and password while they are in transit from the client to the server.
+`Description`: Login pages do not use adequate measures to protect the user name and password while they are in transit from the client to the server.
 
-Extension: In a microservices architecture, where communication between services is prevalent, a system may establish a network of trusted entities for inter-service communication. However, even within this trusted environment, it remains essential to encode or encrypt credentials during transmission. Implementing secure transport protocols such as HTTPS or utilizing encryption mechanisms ensures that sensitive credentials are adequately protected, mitigating the risk of interception and unauthorized access, thereby maintaining the integrity and security of the system.
+`Extension`: In a microservices architecture, where communication between services is prevalent, a system may establish a network of trusted entities for inter-service communication. However, even within this trusted environment, it remains essential to encode or encrypt credentials during transmission. Implementing secure transport protocols such as HTTPS or utilizing encryption mechanisms ensures that sensitive credentials are adequately protected, mitigating the risk of interception and unauthorized access, thereby maintaining the integrity and security of the system.
 
-#### 2.	*Trivial issues.*
+### 2.	*Trivial issues.*
 
 Considerable part of potential issues are trivial ones. For example:
 
@@ -116,7 +116,7 @@ Considerable part of potential issues are trivial ones. For example:
 
 12.	Ensure that error messages returned by both microservices follow a standardized format and language. Consistent error messages improve clarity and help quickly identify and troubleshoot issues.
 
-#### 3.	*Researching best practices, known challenges, and potential risks from industry literature.*
+### 3.	*Researching best practices, known challenges, and potential risks from industry literature.*
 
 Researching best practices, known challenges, and potential risks from industry literature.
 
@@ -130,7 +130,7 @@ Researching best practices, known challenges, and potential risks from industry 
 
 5.	**Consistent Authentication Mechanisms**: Ensure that both microservices use consistent authentication mechanisms across endpoints, such as token-based authentication or OAuth, and not both of them. 
 
-#### 4.	*Investigating issues available in academic sources.*
+### 4.	*Investigating issues available in academic sources.*
 
 Academic papers that present their static code analysis tool or solution contain information about issues and code smells that they are resolving. Andrew Walker et al. paper where the static analysis tool MSANose is presented has supplemented with the identification of eleven code smells. 
 
@@ -157,6 +157,7 @@ Academic papers that present their static code analysis tool or solution contain
 **Cyclic Dependency (CD)**: This occurs when there is a cyclic connection between calls to different modules. This can cause repetitive calls and also increase the complexity of understanding call traces for developers. This is a poor architectural practice for microservices.
  
 Sebastian Copei et al. [2] demonstrate their IDE plugin SIARest to improve the development of microservice-based systems with static code analysis (Fig 1.).
+
 
 
 Fig. 1. Syntax checking with SIARest plugin in Visual Studio Code [2]. 
@@ -215,3 +216,152 @@ Some more grouped by aim:
 [11]	V. Bushong, D. Das, A. Al Maruf, and T. Cerny, “Using Static Analysis to Address Microservice Architecture Reconstruction,” in 2021 36th IEEE/ACM International Conference on Automated Software Engineering (ASE), 2021, pp. 1199–1201. doi: 10.1109/ASE51524.2021.9678749.
 
 [12]	V. Bushong., D. Das., and T. Cerny., “Reconstructing the Holistic Architecture of Microservice Systems using Static Analysis,” in Proceedings of the 12th International Conference on Cloud Computing and Services Science - CLOSER, SciTePress, 2022, pp. 149–157. doi: 10.5220/0011032100003200.
+
+## 3. On the localization of the code of interest
+
+This section for its further examples will consider FastAPI and its specificities in a search and identification of code of interest. There could be multiple ways how microservices could work together, communicating, providing, and making requests. 
+
+### Points of communication:
+
+#### 1.	REST Endpoint: 
+
+```
+ Microservice A                     Microservice B
+┌────────────────────┐            ┌──────────────────────────┐
+│   /items/{item_id} │───────────►│        getItems()        │
+├--------------------┤            │--------------------------│
+│   /create_item     │            │--------------------------│
+├--------------------┤            │--------------------------│
+│   /delete_item     │            │--------------------------│
+└────────────────────┘            └──────────────────────────┘
+```
+At the code side, this could look like this (minimal example):
+
+**Microservice A**
+
+```python
+from fastapi import FastAPI, HTTPException
+
+app = FastAPI()
+
+fake_db = {} # In-memory database
+
+@app.get("/items/{item_id}")
+async def read_item(item_id: str):
+    if item_id not in fake_db:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return {"item_id": item_id, "data": fake_db[item_id]}
+
+
+@app.post("/items/{item_id}")
+async def create_item(item_id: str, data: str):
+    if item_id in fake_db:
+        raise HTTPException(status_code=400, detail="Item already exists")
+    fake_db[item_id] = data
+    return {"item_id": item_id, "data": data}
+
+
+@app.delete("/items/{item_id}")
+async def delete_item(item_id: str):
+    if item_id not in fake_db:
+        raise HTTPException(status_code=404, detail="Item not found")
+    del fake_db[item_id]
+    return {"message": "Item deleted successfully"}
+```
+
+**Microservice B**
+
+```python
+def getItems():
+    response = requests.get("http://microservice_a:8000/items/1")
+
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return None
+
+items_data = getItems()
+print(items_data)
+```
+
+#### 2.	Messaging broker: 
+
+```
+Microservice A              RabbitMQ                Microservice B
+┌────────────────┐         ┌─────────────┐         ┌────────────────┐
+│ send_message() │────────►│    Queue    │◄────────│receive_messages│
+└────────────────┘         └─────────────┘         └────────────────┘
+```
+
+At the code side, this could look like this (minimal example):
+
+**Microservice A**
+
+```python
+import pika
+
+def send_message(message):
+    connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+    channel = connection.channel()
+    channel.queue_declare(queue='messages')
+    channel.basic_publish(exchange='', routing_key='messages', body=message)
+    print("Sent message:", message)
+    connection.close()
+
+message_to_send = "Hello from Microservice A!"
+send_message(message_to_send)
+```
+
+**Microservice B**
+
+```python
+import pika
+
+def receive_messages():
+    connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+    channel = connection.channel()
+    channel.queue_declare(queue='messages')
+    
+    def callback(ch, method, properties, body):
+        print("Received message:", body.decode())
+    
+    channel.basic_consume(queue='messages', on_message_callback=callback, auto_ack=True)
+    print('Waiting for messages.')
+    channel.start_consuming()
+
+receive_messages()
+```
+
+Other communcation points to consider: `Shared database`, `GraphQL APIs`, `Service Mesh`, `Remote Procedure Calls (RPC)`, `WebSocket Communication`, `File Systems or Object Storage`, `Event Sourcing and Event Streams`. 
+
+## 4. On dissection of syntax
+
+### Nexts steps:
+
+1.	Take "REST endpoint" Microservice A and with the SARL dissect HTTP GET variation into parts for later analysis.   
+
+```python
+@app.get("/items/{itemId}")
+async def read_item(item_id: boolean):
+    if item_id not in fake_db:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return {"item_id": item_id, "data": fake_db[item_id]}
+
+```
+
+2.	With the Semantic Checks validate the following:
+
+* Ensure that the endpoint string is given.
+* Validate that the input argument is of a type numeric or string type and not any other (dict, boolean, set, list, etc).
+* Ensure that the path variable in `/items/{item_id}` is the same as the argument of a function. 
+
+Output these issues in a JSON file.
+
+3.	Introduce Microservice B that consumes Microservice’s A `/items/{item_id}` endpoint, and checks if:
+
+* Endpoint paths match.
+* Argument ` itemId` is provided.
+
+Output these issues in a JSON file.
+
+4.	Try to produce a visual graph where that captures previous Microservice A - Microservice B communication.
