@@ -12,7 +12,7 @@
 
 3. `On the localization of the code of interest`. Frameworks provide a large set of solutions and syntaxis dedicated to the different concerns of services development, build-up, maintenance, and testing. Define a list of syntax examples that are associated with the point of communication. These would be the code portions that LiSA to later statically analyze.  
 
-4. `On dissection of syntax`. Learn how to use SARL could decode framework syntax (annotations, declarations, etc.), and how to make them usable and understandable for further LiSA analysis pipeline.
+4. `On dissection of syntax`. Learn how to use SARL to decode framework syntax (annotations, declarations, etc.) and make them usable and understandable for further LiSA analysis pipeline.
 
 5. `On results`. Specify what the results of a statically analyzed system of microservices should look like. In the context of issues and warnings investigate how LiSA checkers could output them textually. In the context of visualization investigate how LiSA’s current graph capabilities could accommodate visual representation of microservice provider-consumption edges. 
 
@@ -56,7 +56,7 @@ Some more:
 
 `Description`: The variable's value is assigned but never used, making it a dead store.
 
-`Extension`: Remove endpoints  that are not used by any other microservice in the system.
+`Extension`: Remove endpoints that are not used by any other microservice in the system.
 
 **Uncontrolled Resource Consumption (CWE-400)**
 
@@ -68,7 +68,7 @@ Some more:
 
 `Description`: The system exposes sensitive information to unauthorized actors, leading to data breaches or privacy violations.
 
-`Extension`: Microservices should delegate which resource is accessable to which microservice in the system.
+`Extension`: Microservices should delegate which resource is accessible to which microservice in the system.
 
 **Unrestricted File Upload (CWE-434)**
 
@@ -78,9 +78,9 @@ Some more:
 
 **Insufficient Logging and Monitoring (CWE-798)**
 
-`Descriptionv: The system lacks sufficient logging and monitoring capabilities, hindering detection and response to security incidents or suspicious activities.
+`Description`: The system lacks sufficient logging and monitoring capabilities, hindering detection and response to security incidents or suspicious activities.
 
-`Extension`: Microservice is handaling a resource without any logging that cames from neighboring microservice where such logging is present. This loses resource trace path and procedure history. 
+`Extension`: Microservice is handling a resource without any logging that comes from neighboring microservice where such logging is present. This loses resource trace path and procedure history. 
 
 **Unprotected Transport of Credentials (CWE-523)**
 
@@ -88,9 +88,9 @@ Some more:
 
 `Extension`: In a microservices architecture, where communication between services is prevalent, a system may establish a network of trusted entities for inter-service communication. However, even within this trusted environment, it remains essential to encode or encrypt credentials during transmission. Implementing secure transport protocols such as HTTPS or utilizing encryption mechanisms ensures that sensitive credentials are adequately protected, mitigating the risk of interception and unauthorized access, thereby maintaining the integrity and security of the system.
 
-### 2.	*Trivial issues.*
+### 2.	Trivial issues.
 
-Considerable part of potential issues are trivial ones. For example:
+Considerable parts of potential issues are trivial ones. For example:
 
 1.	Ensure that both microservices adhere to consistent naming conventions for variables, functions, endpoints, and other elements. E.g. both microservices communicate with identical field names, disallowing any variation like `studentId` from one side and `student_id` from the other.
 
@@ -116,7 +116,7 @@ Considerable part of potential issues are trivial ones. For example:
 
 12.	Ensure that error messages returned by both microservices follow a standardized format and language. Consistent error messages improve clarity and help quickly identify and troubleshoot issues.
 
-### 3.	*Researching best practices, known challenges, and potential risks from industry literature.*
+### 3.	Researching best practices, known challenges, and potential risks from industry literature.
 
 Researching best practices, known challenges, and potential risks from industry literature.
 
@@ -158,7 +158,7 @@ Academic papers that present their static code analysis tool or solution contain
  
 Sebastian Copei et al. [2] demonstrate their IDE plugin SIARest to improve the development of microservice-based systems with static code analysis (Fig 1.).
 
-
+<img width="1271" alt="img" src="https://github.com/TeodorsLisovenko/lisa-on-microservices/assets/45534919/1c9c8158-78c2-4a77-80f4-bcf0ebf99c14">
 
 Fig. 1. Syntax checking with SIARest plugin in Visual Studio Code [2]. 
 
