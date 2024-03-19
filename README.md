@@ -92,43 +92,43 @@ Some more:
 
 Considerable parts of potential issues are trivial ones. For example:
 
-1.	Ensure that both microservices adhere to consistent naming conventions for variables, functions, endpoints, and other elements. E.g. both microservices communicate with identical field names, disallowing any variation like `studentId` from one side and `student_id` from the other.
+1.Ensure that both microservices adhere to consistent naming conventions for variables, functions, endpoints, and other elements. E.g. both microservices communicate with identical field names, disallowing any variation like `studentId` from one side and `student_id` from the other.
 
-2.	Verify that both microservices use standardized date and time formats across API responses and database interactions. Check if all microservices in the same system have explicit time and date configurations and no time zone misalignment. 
+2.Verify that both microservices use standardized date and time formats across API responses and database interactions. Check if all microservices in the same system have explicit time and date configurations and no time zone misalignment. 
 
-3.	Ensure that both microservices enforce the Content-Type header for incoming requests, requiring clients to specify the type of data being sent. 
+3.Ensure that both microservices enforce the Content-Type header for incoming requests, requiring clients to specify the type of data being sent. 
 
-4.	Verify that operations exposed by both microservices are idempotent when appropriate, meaning that executing the operation multiple times has the same effect as executing it once. 
+4.Verify that operations exposed by both microservices are idempotent when appropriate, meaning that executing the operation multiple times has the same effect as executing it once. 
 
-5.	Verify that there is no HTTP request misalignment. For example, there is no GET request to the endpoint that accepts POST requests, etc. 
+5.Verify that there is no HTTP request misalignment. For example, there is no GET request to the endpoint that accepts POST requests, etc. 
 
-6.	Check that both microservices handle timeouts gracefully when communicating with other services or resources. Handling timeouts ensures that the system remains responsive and resilient under adverse conditions.
+6.Check that both microservices handle timeouts gracefully when communicating with other services or resources. Handling timeouts ensures that the system remains responsive and resilient under adverse conditions.
 
-7.	Check adherence to standards, like HTTP GET requests should not have a body payload. 
+7.Check adherence to standards, like HTTP GET requests should not have a body payload. 
 
-8.	Check if the requests to the secured endpoints supply authorization parameters. 
+8.Check if the requests to the secured endpoints supply authorization parameters. 
 
-9.	Evaluate that if passed objects or parameters are valid at least at the entry-level (i.e. passes validation specified in the REST controller). 
+9.Evaluate that if passed objects or parameters are valid at least at the entry-level (i.e. passes validation specified in the REST controller). 
 
-10.	Check that endpoint names follow a consistent naming convention across both microservices. Consistent naming conventions improve clarity and ease of understanding, facilitating collaboration among developers and API consumers. An endpoint that is defined all in a small case should not be accessed with the same letters, but in Caps Lock. 
+10.Check that endpoint names follow a consistent naming convention across both microservices. Consistent naming conventions improve clarity and ease of understanding, facilitating collaboration among developers and API consumers. An endpoint that is defined all in a small case should not be accessed with the same letters, but in Caps Lock. 
 
-11.	Handling of Optional Parameters. Verify that both microservices handle optional parameters consistently, including how they interpret and process requests with missing or incomplete parameters. Consistent handling of optional parameters enhances interoperability and prevents unexpected behavior.
+11.Handling of Optional Parameters. Verify that both microservices handle optional parameters consistently, including how they interpret and process requests with missing or incomplete parameters. Consistent handling of optional parameters enhances interoperability and prevents unexpected behavior.
 
-12.	Ensure that error messages returned by both microservices follow a standardized format and language. Consistent error messages improve clarity and help quickly identify and troubleshoot issues.
+12.Ensure that error messages returned by both microservices follow a standardized format and language. Consistent error messages improve clarity and help quickly identify and troubleshoot issues.
 
 ### 3.	Researching best practices, known challenges, and potential risks from industry literature.
 
 Researching best practices, known challenges, and potential risks from industry literature.
 
-1.	**Dependency Drift**: Lack of proper dependency management and versioning practices can lead to dependency drift, where microservices use different versions of shared libraries or frameworks, potentially introducing compatibility issues and security vulnerabilities.
+1.**Dependency Drift**: Lack of proper dependency management and versioning practices can lead to dependency drift, where microservices use different versions of shared libraries or frameworks, potentially introducing compatibility issues and security vulnerabilities.
 
-2.	**Lack of Trace Context Propagation**: Inconsistent or inadequate propagation of trace context between microservices can hinder effective distributed tracing, making it challenging to debug and analyze system behavior.
+2.**Lack of Trace Context Propagation**: Inconsistent or inadequate propagation of trace context between microservices can hinder effective distributed tracing, making it challenging to debug and analyze system behavior.
 
-3.	**Single Point of Failure**: API gateways can become single points of failure, leading to service disruptions for all microservices behind them.
+3.**Single Point of Failure**: API gateways can become single points of failure, leading to service disruptions for all microservices behind them.
 
-4.	**Distributed Transactions**: Lack of support for distributed transactions can result in inconsistencies across microservices' data stores.
+4.**Distributed Transactions**: Lack of support for distributed transactions can result in inconsistencies across microservices' data stores.
 
-5.	**Consistent Authentication Mechanisms**: Ensure that both microservices use consistent authentication mechanisms across endpoints, such as token-based authentication or OAuth, and not both of them. 
+5.**Consistent Authentication Mechanisms**: Ensure that both microservices use consistent authentication mechanisms across endpoints, such as token-based authentication or OAuth, and not both of them. 
 
 ### 4.	*Investigating issues available in academic sources.*
 
@@ -138,23 +138,23 @@ Academic papers that present their static code analysis tool or solution contain
 
 **Too Many Standards**: Given the distributed nature of the microservice application, multiple discrete teams of developers often work on a given module, separate from the other teams. This can create a situation where multiple frameworks are used when a standard should be established for consistency across the modules.
 
-**Wrong Cuts (WC)**: This occurs when microservices are split into their technical layers (presentation, business, and data layers). Microservices are supposed to be split by features, and each fully contains their domain’s presentation, business, and data layers.
+**Wrong Cuts**: This occurs when microservices are split into their technical layers (presentation, business, and data layers). Microservices are supposed to be split by features, and each fully contains their domain’s presentation, business, and data layers.
 
-**Not Having an API Gateway (NAG)**: The API gateway pattern is a design pattern for managing the connections between microservices. In large, complex systems, this should be used to reduce the potential issues of direct communication.
+**Not Having an API Gateway**: The API gateway pattern is a design pattern for managing the connections between microservices. In large, complex systems, this should be used to reduce the potential issues of direct communication.
 
-**Hard-Coded Endpoints (HCE)**: Hardcoded IP addresses and ports are used to communicate between services. By hardcoding the endpoints, the application becomes more brittle to change and reduces the application’s scalability.
+**Hard-Coded Endpoints**: Hardcoded IP addresses and ports are used to communicate between services. By hardcoding the endpoints, the application becomes more brittle to change and reduces the application’s scalability.
 
-**API Versioning (AV)**: All Application Programming Interfaces (API) should be versioned to keep track of changes properly.
+**API Versioning**: All Application Programming Interfaces (API) should be versioned to keep track of changes properly.
 
-**Microservice Greedy (MG)**: This occurs when microservices are created for every new feature, and, oftentimes, these new modules are too small and do not serve many purposes. This increases complexity and the overhead of the system. Smaller features should be wrapped into larger microservices if possible.
+**Microservice Greedy**: This occurs when microservices are created for every new feature, and, oftentimes, these new modules are too small and do not serve many purposes. This increases complexity and the overhead of the system. Smaller features should be wrapped into larger microservices if possible.
 
-**Shared Persistency (SP)**: When two microservice application modules access the same database, it breaks the microservice definition. Each microservice should have autonomy and control over its data and database. 
+**Shared Persistency**: When two microservice application modules access the same database, it breaks the microservice definition. Each microservice should have autonomy and control over its data and database. 
 
-**Inappropriate Service Intimacy (ISI)**: One module requesting private data from a separate module also breaks the microservice definition. Each microservice should have control over its private data.
+**Inappropriate Service Intimacy**: One module requesting private data from a separate module also breaks the microservice definition. Each microservice should have control over its private data.
 
-**Shared Libraries (SL)**: If microservices are coupled with a common library, that library should be refactored into a separate module. This reduces the fragility of the application by migrating the shared functionality behind a common, unchanging interface. This will make the system resistant to ripples from changes within the library.
+**Shared Libraries**: If microservices are coupled with a common library, that library should be refactored into a separate module. This reduces the fragility of the application by migrating the shared functionality behind a common, unchanging interface. This will make the system resistant to ripples from changes within the library.
 
-**Cyclic Dependency (CD)**: This occurs when there is a cyclic connection between calls to different modules. This can cause repetitive calls and also increase the complexity of understanding call traces for developers. This is a poor architectural practice for microservices.
+**Cyclic Dependency**: This occurs when there is a cyclic connection between calls to different modules. This can cause repetitive calls and also increase the complexity of understanding call traces for developers. This is a poor architectural practice for microservices.
  
 Sebastian Copei et al. [2] demonstrate their IDE plugin SIARest to improve the development of microservice-based systems with static code analysis (Fig 1.).
 
@@ -179,6 +179,7 @@ export const simpleTypeError = (resConf: string, resVal: Expression): SemanticEr
   return undefined;
 };
 ```
+
 Function to raise error when there is field type differentiation between two microservice endpoints. 
 
 Some more grouped by aim:
@@ -338,7 +339,7 @@ Other communcation points to consider: `Shared database`, `GraphQL APIs`, `Servi
 
 ### Nexts steps:
 
-1.	Take "REST endpoint" Microservice A and with the SARL dissect HTTP GET variation into parts for later analysis.   
+1.Take "REST endpoint" Microservice A and with the SARL dissect HTTP GET variation into parts for later analysis.   
 
 ```python
 @app.get("/items/{itemId}")
@@ -349,7 +350,7 @@ async def read_item(item_id: boolean):
 
 ```
 
-2.	With the Semantic Checks validate the following:
+2.With the Semantic Checks validate the following:
 
 * Ensure that the endpoint string is given.
 * Validate that the input argument is of a type numeric or string type and not any other (dict, boolean, set, list, etc).
@@ -357,11 +358,11 @@ async def read_item(item_id: boolean):
 
 Output these issues in a JSON file.
 
-3.	Introduce Microservice B that consumes Microservice’s A `/items/{item_id}` endpoint, and checks if:
+3.Introduce Microservice B that consumes Microservice’s A `/items/{item_id}` endpoint, and checks if:
 
 * Endpoint paths match.
-* Argument ` itemId` is provided.
+* Argument `itemId` is provided.
 
 Output these issues in a JSON file.
 
-4.	Try to produce a visual graph where that captures previous Microservice A - Microservice B communication.
+4.Try to produce a visual graph where that captures previous Microservice A - Microservice B communication.
