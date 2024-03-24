@@ -373,6 +373,8 @@ How code of interest is captured in some other academic papers:
 
 1.M. Schiewe, J. Curtis, V. Bushong, and T. Cerny, “Advancing Static Code Analysis With Language-Agnostic Component Identification,” IEEE Access, vol. 10, pp. 30743–30761, 2022, doi: 10.1109/ACCESS.2022.3160485.
 
+<img width="612" alt="spec-to-find" src="https://github.com/TeodorsLisovenko/lisa-on-microservices/assets/45534919/d38a7096-9953-4a9f-9ed4-4012b13988db">
+
 2.I. Trabelsi et al., “From legacy to microservices: A type‐based approach for microservices identification using machine learning and semantic analysis,” Journal of Software: Evolution and Process, vol. 35, Mar. 2022, doi: 10.1002/smr.2503.
 
 We propose MicroMiner, a microservice identiﬁcation approach that is based on static-relationship analyses between code elements as well as semantic analyses of the source code. Our approach relies on Machine Learning (ML) techniques and uses service types to guide the identiﬁcation of microservices from legacy monolithic systems.
