@@ -337,7 +337,7 @@ Other communcation points to consider: `Shared database`, `GraphQL APIs`, `Servi
 
 ## 4. On dissection of syntax
 
-### Nexts steps:
+### Steps of execution:
 
 1.Take "REST endpoint" Microservice A and with the SARL dissect HTTP GET variation into parts for later analysis.   
 
@@ -366,3 +366,106 @@ Output these issues in a JSON file.
 Output these issues in a JSON file.
 
 4.Try to produce a visual graph where that captures previous Microservice A - Microservice B communication.
+
+#### 1. Capturing the syntax with SARL
+
+How code of interest is captured in some other academic papers:
+
+1.M. Schiewe, J. Curtis, V. Bushong, and T. Cerny, “Advancing Static Code Analysis With Language-Agnostic Component Identification,” IEEE Access, vol. 10, pp. 30743–30761, 2022, doi: 10.1109/ACCESS.2022.3160485.
+
+2.I. Trabelsi et al., “From legacy to microservices: A type‐based approach for microservices identification using machine learning and semantic analysis,” Journal of Software: Evolution and Process, vol. 35, Mar. 2022, doi: 10.1002/smr.2503.
+
+We propose MicroMiner, a microservice identiﬁcation approach that is based on static-relationship analyses between code elements as well as semantic analyses of the source code. Our approach relies on Machine Learning (ML) techniques and uses service types to guide the identiﬁcation of microservices from legacy monolithic systems.
+
+We adopted a more reﬁned semantic analysis method that uses the pre-trained Word2Vec model based on Google News, which produces more accurate results on the semantic similarity between diﬀerent components of the monolithic project and ensures consistency in the context of microservices.
+
+Starting with SARL:
+
+```yaml
+library fastapi:
+    location fastapi
+    method FastAPI: it.unive.pylisa.libraries.fastapi.FastAPI
+        libtype fastapi.FastAPI*
+
+    method get: it.unive.pylisa.libraries.fastapi.GetOperation
+        libtype fastapi.Operation*
+        param path type it.unive.lisa.program.type.StringType::INSTANCE
+        param callback type it.unive.lisa.program.type.PyLambdaType::INSTANCE
+
+    method HTTPException: it.unive.pylisa.libraries.fastapi.RaiseHttpException
+        libtype fastapi.HTTPException*
+        param status_code type it.unive.lisa.program.type.Int32Type::INSTANCE
+        param detail type it.unive.lisa.program.type.StringType::INSTANCE
+
+class fastapi.FastAPI:
+    instance method add_route: it.unive.pylisa.libraries.fastapi.AddRoute
+        type it.unive.lisa.type.VoidType::INSTANCE
+        param self libtype fastapi.FastAPI*
+        param path type it.unive.lisa.program.type.StringType::INSTANCE
+        param callback type it.unive.lisa.program.type.PyLambdaType::INSTANCE
+
+class fastapi.Operation:
+    instance method execute: it.unive.pylisa.libraries.fastapi.ExecuteOperation
+        type it.unive.lisa.type.VoidType::INSTANCE
+        param self libtype fastapi.Operation*
+        param request type it.unive.lisa.type.Untyped::INSTANCE
+
+class fastapi.HTTPException:
+    instance method respond: it.unive.pylisa.libraries.fastapi.RespondWithHttpException
+        type it.unive.lisa.type.VoidType::INSTANCE
+        param self libtype fastapi.HTTPException*
+```
+
+How would, for example, `GetOperation` look like in the Java capturing class:
+
+<table>
+<tr>
+<td> Sarl </td> <td> Java capturing class </td>
+</tr>
+<tr>
+<td> 
+
+`method get: it.unive.pylisa.libraries.fastapi.GetOperation` 
+
+</td>
+<td>
+
+```java
+java
+public class GetOperation extends UnaryExpression implements PluggableStatement {
+    private Statement st;
+
+    public GetOperation(CFG cfg, CodeLocation location, Expression path) {
+        super(cfg, location, "GetOperation", path);
+    }
+
+    @Override
+    protected int compareSameClassAndParams(Statement o) {
+        return 0;
+    }
+
+    @Override
+    public void setOriginatingStatement(Statement st) {
+        this.st = st;
+    }
+
+    public static GetOperation build(CFG cfg, CodeLocation location, Expression[] exprs) {
+        if (exprs.length != 1) {
+            throw new IllegalArgumentException("GetOperation requires exactly one argument: the path expression");
+        }
+        return new GetOperation(cfg, location, exprs[0]);
+    }
+
+    @Override
+    public <A extends AbstractState<A>> AnalysisState<A> fwdUnarySemantics(
+            InterproceduralAnalysis<A> interprocedural,
+            AnalysisState<A> state,
+            SymbolicExpression arg,
+            StatementStore<A> expressions) throws SemanticException {
+        return state;
+    }
+}
+```
+</td>
+</tr>
+</table>
