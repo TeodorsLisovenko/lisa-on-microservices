@@ -427,7 +427,10 @@ How would, for example, `GetOperation` look like in the Java capturing class:
 <tr>
 <td> 
 
-`method get: it.unive.pylisa.libraries.fastapi.GetOperation` 
+method get:
+it.unive.pylisa.
+libraries.fastapi.
+`GetOperation`
 
 </td>
 <td>
