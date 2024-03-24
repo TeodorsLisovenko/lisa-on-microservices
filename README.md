@@ -427,16 +427,12 @@ How would, for example, `GetOperation` look like in the Java capturing class:
 <tr>
 <td> 
 
-method get:
-it.unive.pylisa.
-libraries.fastapi.
 `GetOperation`
 
 </td>
 <td>
 
 ```java
-java
 public class GetOperation extends UnaryExpression implements PluggableStatement {
     private Statement st;
 
