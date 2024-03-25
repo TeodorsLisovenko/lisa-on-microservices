@@ -471,6 +471,6 @@ public class Get extends NaryExpression implements PluggableStatement {
 </tr>
 </table>
 
-### Currently perplexed here:
-\
+Currently perplexed here:
+
 <img width="529" alt="image" src="https://github.com/TeodorsLisovenko/lisa-on-microservices/assets/45534919/bd37e1b0-4db5-4fea-8d08-3a9fe1e1af83">
