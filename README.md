@@ -386,36 +386,37 @@ Starting with SARL:
 ```yaml
 library fastapi:
     location fastapi
+
     method FastAPI: it.unive.pylisa.libraries.fastapi.FastAPI
         libtype fastapi.FastAPI*
 
-    method get: it.unive.pylisa.libraries.fastapi.GetOperation
+    method get: it.unive.pylisa.libraries.fastapi.Get
         libtype fastapi.Operation*
         param path type it.unive.lisa.program.type.StringType::INSTANCE
-        param callback type it.unive.lisa.program.type.PyLambdaType::INSTANCE
+        param callback type it.unive.pylisa.cfg.type.PyLambdaType::INSTANCE
 
-    method HTTPException: it.unive.pylisa.libraries.fastapi.RaiseHttpException
+    method HTTPException: it.unive.pylisa.libraries.fastapi.HTTPException
         libtype fastapi.HTTPException*
         param status_code type it.unive.lisa.program.type.Int32Type::INSTANCE
         param detail type it.unive.lisa.program.type.StringType::INSTANCE
 
-class fastapi.FastAPI:
-    instance method add_route: it.unive.pylisa.libraries.fastapi.AddRoute
-        type it.unive.lisa.type.VoidType::INSTANCE
-        param self libtype fastapi.FastAPI*
-        param path type it.unive.lisa.program.type.StringType::INSTANCE
-        param callback type it.unive.lisa.program.type.PyLambdaType::INSTANCE
+    class fastapi.FastAPI:
+        instance method add_route: it.unive.pylisa.libraries.fastapi.AddRoute
+            type it.unive.lisa.type.VoidType::INSTANCE
+            param self libtype fastapi.FastAPI*
+            param path type it.unive.lisa.program.type.StringType::INSTANCE
+            param callback type it.unive.pylisa.cfg.type.PyLambdaType::INSTANCE
 
-class fastapi.Operation:
-    instance method execute: it.unive.pylisa.libraries.fastapi.ExecuteOperation
-        type it.unive.lisa.type.VoidType::INSTANCE
-        param self libtype fastapi.Operation*
-        param request type it.unive.lisa.type.Untyped::INSTANCE
+    class fastapi.Operation:
+        instance method execute: it.unive.pylisa.libraries.fastapi.ExecuteOperation
+            type it.unive.lisa.type.VoidType::INSTANCE
+            param self libtype fastapi.Operation*
+            param request type it.unive.lisa.type.Untyped::INSTANCE
 
-class fastapi.HTTPException:
-    instance method respond: it.unive.pylisa.libraries.fastapi.RespondWithHttpException
-        type it.unive.lisa.type.VoidType::INSTANCE
-        param self libtype fastapi.HTTPException*
+    class fastapi.HTTPException:
+        instance method respond: it.unive.pylisa.libraries.fastapi.RespondWithHttpException
+            type it.unive.lisa.type.VoidType::INSTANCE
+            param self libtype fastapi.HTTPException*
 ```
 
 How would, for example, `GetOperation` look like in the Java capturing class:
@@ -427,17 +428,28 @@ How would, for example, `GetOperation` look like in the Java capturing class:
 <tr>
 <td> 
 
-`GetOperation`
+`Get`
 
 </td>
 <td>
 
 ```java
-public class GetOperation extends UnaryExpression implements PluggableStatement {
+public class Get extends NaryExpression implements PluggableStatement {
+
     private Statement st;
 
-    public GetOperation(CFG cfg, CodeLocation location, Expression path) {
-        super(cfg, location, "GetOperation", path);
+    public Get(CFG cfg, CodeLocation location, Expression... parameters) {
+        super(cfg, location, "get", parameters);
+    }
+
+    @Override
+    public void setOriginatingStatement(Statement st) { this.st = st; }
+
+    @Override
+    public Program getProgram() { return super.getProgram(); }
+
+    public static Get build(CFG cfg, CodeLocation location, Expression[] parameters) {
+        return new Get(cfg, location, parameters);
     }
 
     @Override
@@ -446,24 +458,12 @@ public class GetOperation extends UnaryExpression implements PluggableStatement 
     }
 
     @Override
-    public void setOriginatingStatement(Statement st) {
-        this.st = st;
-    }
-
-    public static GetOperation build(CFG cfg, CodeLocation location, Expression[] exprs) {
-        if (exprs.length != 1) {
-            throw new IllegalArgumentException("GetOperation requires exactly one argument: the path expression");
-        }
-        return new GetOperation(cfg, location, exprs[0]);
-    }
-
-    @Override
-    public <A extends AbstractState<A>> AnalysisState<A> fwdUnarySemantics(
-            InterproceduralAnalysis<A> interprocedural,
-            AnalysisState<A> state,
-            SymbolicExpression arg,
-            StatementStore<A> expressions) throws SemanticException {
-        return state;
+    public <A extends AbstractState<A>> AnalysisState<A> forwardSemanticsAux(
+            InterproceduralAnalysis<A> interproceduralAnalysis,
+            AnalysisState<A> analysisState,
+            ExpressionSet[] expressionSets,
+            StatementStore<A> statementStore) throws SemanticException {
+        return null;
     }
 }
 ```
